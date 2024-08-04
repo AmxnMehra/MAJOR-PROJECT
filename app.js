@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 
 // Router
 app.use("/listings", listings);
-app.use("listings/:id/reviews", reviews);
+app.use("/listings/:id/reviews", reviews);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not Found"));
