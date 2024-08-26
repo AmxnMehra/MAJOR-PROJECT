@@ -7,8 +7,10 @@ const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/expressError.js");
 const session = require("express-session");
 const flash = require("connect-flash");
-const listings = require("./routes/listing.js");
-const reviews = require("./routes/review.js");
+const listingsRouter = require("./routes/listing.js");
+const reviewsRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
@@ -60,22 +62,24 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user;
   next();
 });
 
 // Demo User
-app.get("/demouser", async (req, res) => {
-  let fakeUser = new User({
-    email: "aman@gmail.com",
-    username: "delta-kides",
-  });
-  let registerUser = await User.register(fakeUser, "lamao kid");
-  res.send(registerUser);
-});
+// app.get("/demouser", async (req, res) => {
+//   let fakeUser = new User({
+//     email: "aman@gmail.com",
+//     username: "delta-kides",
+//   });
+//   let registerUser = await User.register(fakeUser, "lamao kid");
+//   res.send(registerUser);
+// });
 
 // Router
-app.use("/listings", listings);
-app.use("/listings/:id/reviews", reviews);
+app.use("/listings", listingsRouter);
+app.use("/listings/:id/reviews", reviewsRouter);
+app.use("/", userRouter);
 
 app.all("*", (req, res, next) => {
   next(new ExpressError(404, "Page not Found"));
