@@ -18,7 +18,7 @@ router.post(
     console.log(req.params.id);
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
-    newReview.authror = req.user._id;
+    newReview.author = req.user._id;
     listing.reviews.push(newReview);
 
     await newReview.save();

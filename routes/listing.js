@@ -33,7 +33,7 @@ router.get(
       })
       .populate("owner");
     if (!listing) {
-      req.flash("error", "Listing You Requested For Doen't Exist");
+      req.flash("error", "Listing You Requested For, Doen't Exist");
       res.redirect("/listings");
     }
     console.log(listing);
