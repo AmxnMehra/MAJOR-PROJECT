@@ -40,7 +40,7 @@ router.post(
     faiureFlash: true,
   }),
   async (req, res) => {
-    req.flash("Success", "Welcome Back");
+    req.flash("success", "Welcome Back");
     let redirectUrl = res.locals.redirectUrl || "/listings";
     res.redirect(redirectUrl);
   }
