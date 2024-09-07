@@ -9,20 +9,23 @@ const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
 
-router
-  .route("/")
-  .get(wrapAsync(listingController.index))
-  // .post(
-  //   isLoggedIn,
-  //   validateListing,
-  //   wrapAsync(listingController.createListing)
-  // );
-  .post(upload.single("listing[image]"), (req, res) => {
-    res.send(req.file);
-  });
+// router
+//   .route("/")
+//   .get(wrapAsync(listingController.index))
+//   .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing))
+//   .post(upload.single("listing[image]"), (req, res) => {
+//     res.send(req.file);
+//   });
+
+router.route("/").get(wrapAsync(listingController.index)).post(
+  isLoggedIn, // check if the user is logged in
+  upload.single("listing[image]"), // handle the file upload
+  validateListing, // validate the listing
+  wrapAsync(listingController.createListing) // call the controller to create the listing
+);
 
 // New Route
-router.get("/new", isLoggedIn), listingController.renderNewForm;
+router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 router
   .route("/:id")
