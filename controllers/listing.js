@@ -37,16 +37,43 @@ module.exports.showListing = async (req, res) => {
 //   res.redirect("/listings");
 // };
 
+// module.exports.createListing = async (req, res, next) => {
+//   let url = req.file.path;
+//   let filename = req.file.filename;
+//   const newListing = new Listing(req.body.listing);
+//   newListing.owner = req.user._id;
+//   newListing.image = { url, filename };
+//   let savedListing = await newListing.save();
+//   console.log(savedListing);
+//   req.flash("success", "New Listing Created!");
+//   res.redirect("/listings");
+// };
+
 module.exports.createListing = async (req, res, next) => {
-  let url = req.file.path;
-  let filename = req.file.filename;
-  const newListing = new Listing(req.body.listing);
-  newListing.owner = req.user._id;
-  newListing.image = { url, filename };
-  let savedListing = await newListing.save();
-  console.log(savedListing);
-  req.flash("success", "New Listing Created!");
-  res.redirect("/listings");
+  console.log(req.file); // Check if Multer is receiving the file
+
+  if (!req.file) {
+    req.flash("error", "File upload failed. Please try again.");
+    return res.redirect("/listings/new");
+  }
+
+  try {
+    let url = req.file.path;
+    let filename = req.file.filename;
+    const newListing = new Listing(req.body.listing);
+    newListing.owner = req.user._id;
+    newListing.image = { url, filename };
+
+    let savedListing = await newListing.save();
+    console.log(savedListing);
+
+    req.flash("success", "New Listing Created!");
+    res.redirect("/listings");
+  } catch (error) {
+    console.log(error);
+    req.flash("error", "Something went wrong.");
+    res.redirect("/listings/new");
+  }
 };
 
 module.exports.renderEdit = async (req, res) => {

@@ -38,6 +38,16 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+// const sessionOptions = {
+//   secret: "Mysupersecretcode",
+//   resave: false,
+//   saveUninitialized: true,
+//   cookie: {
+//     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+//     maxAge: 7 * 24 * 60 * 60 * 1000,
+//   },
+// };
+
 const sessionOptions = {
   secret: "Mysupersecretcode",
   resave: false,
@@ -45,6 +55,7 @@ const sessionOptions = {
   cookie: {
     expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
     maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true, //security purpose
   },
 };
 
