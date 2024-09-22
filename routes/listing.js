@@ -9,22 +9,15 @@ const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
 const upload = multer({ storage });
 
-// router
-//   .route("/")
-//   .get(wrapAsync(listingController.index))
-//   .post(isLoggedIn, validateListing, wrapAsync(listingController.createListing))
-//   .post(upload.single("listing[image]"), (req, res) => {
-//     res.send(req.file);
-//   });
-
+// Listing Routes
 router.route("/").get(wrapAsync(listingController.index)).post(
-  isLoggedIn, // check if the user is logged in
-  upload.single("listing[image]"), // handle the file upload
-  validateListing, // validate the listing
-  wrapAsync(listingController.createListing) // call the controller to create the listing
+  isLoggedIn,
+  upload.single("listing[image]"), // Handle the file upload
+  validateListing,
+  wrapAsync(listingController.createListing)
 );
 
-// New Route
+// New Listing Route
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 router
@@ -33,13 +26,13 @@ router
   .put(
     isLoggedIn,
     isOwner,
-    upload.single("listing[image"),
+    upload.single("listing[image]"), // Corrected closing parenthesis
     validateListing,
     wrapAsync(listingController.updateListing)
   )
   .delete(isLoggedIn, isOwner, wrapAsync(listingController.destroyListing));
 
-// Edit Route
+// Edit Listing Route
 router.get(
   "/:id/edit",
   isLoggedIn,
