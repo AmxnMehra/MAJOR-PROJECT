@@ -40,6 +40,7 @@
 
   <div class="col-8 offset-3 mb-3">
     <% if(currUser) { %>
+    <hr />
     <h4>Leave a Review</h4>
     <form
       action="/listings/<%= listing._id %>/reviews"
@@ -110,10 +111,9 @@
       </div>
       <button class="btn btn-outline-dark">Submit</button>
     </form>
-    <% } %>
-
-    <p><b>All Reviews</b></p>
+    <% } %> <% if(listing.reviews.length > 0) {%>
     <div class="row">
+      <p><b>All Reviews</b></p>
       <% for(review of listing.reviews) { %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
@@ -134,7 +134,24 @@
         </div>
       </div>
       <%}%>
-      <hr />
     </div>
+    <% } %>
+  </div>
+  <div class="col-6 offset-3 mb-3">
+    <h3>Where You'll Be</h3>
+    <div id="map"></div>
   </div>
 </div>
+
+<script>
+  // let mapToken = "<%= process.env.MAP_TOKEN %>";
+  // maptilersdk.accessToken = mapToken;
+  maptilersdk.config.apiKey = "54NpB9k6dl2sOAbKuR7d";
+
+  const map = new maptilersdk.Map({
+    container: "map",
+    style: maptilersdk.MapStyle.STREETS,
+    center: [16.62662018, 49.2125578],
+    zoom: 14,
+  });
+</script>
