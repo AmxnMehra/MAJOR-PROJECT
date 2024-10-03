@@ -11,7 +11,9 @@
       class="card-img-top show-img"
     />
     <div class="card-body">
-      <p class="card-text">Owned By: <i><%= listing.owner.username %> </i></p>
+      <p class="card-text">
+        Owned By: <i><%= listing.owner?.username || 'Unknown Owner' %></i>
+      </p>
 
       <p class="card-text"><%= listing.description %></p>
       <p class="card-text">
@@ -23,8 +25,8 @@
   </div>
   <br />
 
-  <% if(currUser && listing.owner._id.equals(currUser._id)) { %>
-
+  <% if(currUser && listing.owner && listing.owner._id.equals(currUser._id)) {
+  %>
   <div class="btns mb-3">
     <a
       href="/listings/<%= listing._id %>/edit"
@@ -36,7 +38,7 @@
       <button class="btn btn-dark offset-5">Delete</button>
     </form>
   </div>
-  <% }%>
+  <% } %>
 
   <div class="col-8 offset-3 mb-3">
     <% if(currUser) { %>
@@ -111,19 +113,20 @@
       </div>
       <button class="btn btn-outline-dark">Submit</button>
     </form>
-    <% } %> <% if(listing.reviews.length > 0) {%>
+    <% } %> <% if(listing.reviews.length > 0) { %>
     <div class="row">
       <p><b>All Reviews</b></p>
       <% for(review of listing.reviews) { %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
-          <h5 class="card-title">@<%= review.author.username%></h5>
+          <h5 class="card-title">
+            @<%= review.author?.username || 'Anonymous' %>
+          </h5>
           <p
             class="starability-result card-text"
             data-rating="<%= review.rating %>"
           ></p>
           <p class="card-text"><%= review.comment %></p>
-
           <form
             class="mb-3"
             method="post"
@@ -133,7 +136,7 @@
           </form>
         </div>
       </div>
-      <%}%>
+      <% } %>
     </div>
     <% } %>
   </div>
