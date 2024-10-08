@@ -1,4 +1,8 @@
 <% layout("/layouts/boilerplate") %>
+<script>
+  const mapToken = "<%= process.env.MAP_TOKEN %>";
+</script>
+
 <div class="row mt-3">
   <div class="col-8 offset-3">
     <h3><%= listing.title %> :</h3>
@@ -143,15 +147,4 @@
   </div>
 </div>
 
-<script>
-  // let mapToken = "<%= process.env.MAP_TOKEN %>";
-  // maptilersdk.accessToken = mapToken;
-  maptilersdk.config.apiKey = "54NpB9k6dl2sOAbKuR7d";
-
-  const map = new maptilersdk.Map({
-    container: "map",
-    style: maptilersdk.MapStyle.STREETS,
-    center: [16.62662018, 49.2125578],
-    zoom: 14,
-  });
-</script>
+<script src="/js/map.js"></script>
